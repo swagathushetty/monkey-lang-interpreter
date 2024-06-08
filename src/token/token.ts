@@ -1,4 +1,4 @@
-const TokenTypes = {
+export const TokenTypes = {
     IDENT:'IDENT',
     INT:'INT',
 
@@ -18,12 +18,12 @@ const TokenTypes = {
 
     ILLEGAL:"ILLEGAL",
     EOF:'EOF'
-} 
+} as const
 
 
-type TokenType = typeof TokenTypes[keyof typeof TokenTypes]
+export type TokenType = typeof TokenTypes[keyof typeof TokenTypes]
 
-type Token ={
+export type Token ={
     type:TokenType,
     literal:string
 }
