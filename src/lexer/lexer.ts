@@ -1,16 +1,17 @@
-import { Token, TokenType, TokenTypes } from "../token/token";
+import { lookupIdent, Token, TokenType, TokenTypes } from "../token/token";
+import { isDigit, isLetter, newToken } from "../helpers/helpers";
 
 export class Lexer {
     private input: string;
     private position:number;
     private readPosition:number; //next pos
-    private ch:string|null;
+    private ch:string;
 
     constructor(input:string){
         this.input = input;
         this.position = 0;
         this.readPosition = 0;
-        this.ch =null;
+        this.ch ="";
     }
 
     public static newLexer(input:string){
@@ -21,7 +22,7 @@ export class Lexer {
 
     private readChar(){
         if(this.readPosition >= this.input.length){
-            this.ch = null
+            this.ch = ""
         }else{
             this.ch = this.input[this.readPosition]
         }
@@ -35,40 +36,75 @@ export class Lexer {
             literal:''
         }
 
+        this.skipWhiteSpace()
         switch(this.ch){
             case '=':
-                token = this.newToken(TokenTypes.ASSIGN,this.ch)
+                token = newToken(TokenTypes.ASSIGN,this.ch)
                 break
             case ';':
-                token = this.newToken(TokenTypes.SEMICOLON,this.ch)
+                token = newToken(TokenTypes.SEMICOLON,this.ch)
                 break
             case '(':
-                token = this.newToken(TokenTypes.LPAREN,this.ch)
+                token = newToken(TokenTypes.LPAREN,this.ch)
                 break
             case ')':
-                token = this.newToken(TokenTypes.RPAREN,this.ch)
+                token = newToken(TokenTypes.RPAREN,this.ch)
                 break
             case ',':
-                token = this.newToken(TokenTypes.COMMA,this.ch)
+                token = newToken(TokenTypes.COMMA,this.ch)
                 break
             case '+':
-                token = this.newToken(TokenTypes.PLUS,this.ch)
+                token = newToken(TokenTypes.PLUS,this.ch)
                 break
             case '{':
-                token = this.newToken(TokenTypes.LBRACE,this.ch)
+                token = newToken(TokenTypes.LBRACE,this.ch)
                 break
             case '}':
-                token = this.newToken(TokenTypes.RBRACE,this.ch)
+                token = newToken(TokenTypes.RBRACE,this.ch)
                 break
+            case "":
+                return token
+            default:
+                if(isLetter(this.ch)){
+                    token.literal = this.readIdentifier()
+                    token.type = lookupIdent(token.literal)
+                    return token
+                }else if(isDigit(this.ch)){
+                    token.type = TokenTypes.INT
+                    token.literal = this.readNumber()
+                    return token
+                }
+                else{
+                    token = newToken(TokenTypes.ILLEGAL,this.ch)
+                }
         }
         this.readChar()
         return token
     }
 
-    private newToken(token:TokenType,ch:string):Token{
-        return {
-            type:token,
-            literal:ch
+    private readIdentifier():string{
+        const position = this.position
+        while(isLetter(this.ch)){
+            this.readChar()
+        }
+
+        return this.input.slice(position,this.position)
+    }
+
+    private skipWhiteSpace(){
+        while(this.ch === ' ' || this.ch === '\t' || this.ch === '\r' || this.ch === '\n'){
+            this.readChar()
         }
     }
+
+    private readNumber():string{
+
+        const position = this.position
+        while(isDigit(this.ch)){
+            this.readChar()
+        }
+
+        return this.input.slice(position,this.position)
+    }
+    
 }
