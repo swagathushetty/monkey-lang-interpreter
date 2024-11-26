@@ -69,7 +69,6 @@ describe('lexer',()=>{
 
 
             {expectedType:TokenTypes.EOF,expectedLiteral:""},
-
         ];
 
         const lexer = Lexer.newLexer(input)
