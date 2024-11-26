@@ -12,6 +12,9 @@ describe('lexer',()=>{
                 };
                 
                 let result = add(five, ten);
+
+                !-/*5;
+                5 < 10 > 5;
         `;
         const tests = [
             // {expectedType:TokenTypes.LET,expectedLiteral:"let"},
@@ -87,6 +90,21 @@ describe('lexer',()=>{
             { expectedType: TokenTypes.IDENT, expectedLiteral: "ten" },
             { expectedType: TokenTypes.RPAREN, expectedLiteral: ")" },
             { expectedType: TokenTypes.SEMICOLON, expectedLiteral: ";" },
+            
+            { expectedType: TokenTypes.BANG, expectedLiteral: "!" },
+            { expectedType: TokenTypes.MINUS, expectedLiteral: "-" },
+            { expectedType: TokenTypes.SLASH, expectedLiteral: "/" },
+            { expectedType: TokenTypes.ASTERIK, expectedLiteral: "*" },
+            { expectedType: TokenTypes.INT, expectedLiteral: "5" },
+            { expectedType: TokenTypes.SEMICOLON, expectedLiteral: ";" },
+            { expectedType: TokenTypes.INT, expectedLiteral: "5" },
+            { expectedType: TokenTypes.LT, expectedLiteral: "<" },
+            { expectedType: TokenTypes.INT, expectedLiteral: "10" },
+            { expectedType: TokenTypes.GT, expectedLiteral: ">" },
+            { expectedType: TokenTypes.INT, expectedLiteral: "5" },
+            { expectedType: TokenTypes.SEMICOLON, expectedLiteral: ";" },
+
+
             {expectedType:TokenTypes.EOF,expectedLiteral:""},
 
 

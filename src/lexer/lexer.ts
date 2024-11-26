@@ -62,6 +62,24 @@ export class Lexer {
             case '}':
                 token = newToken(TokenTypes.RBRACE,this.ch)
                 break
+            case '-':
+                token = newToken(TokenTypes.MINUS,this.ch)
+                break
+            case '!':
+                token = newToken(TokenTypes.BANG,this.ch)
+                break
+            case '/':
+                token = newToken(TokenTypes.SLASH,this.ch)
+                break
+            case '*':
+                token = newToken(TokenTypes.ASTERIK,this.ch)
+                break
+            case '<':
+                token = newToken(TokenTypes.LT,this.ch)
+                break
+            case '>':
+                token = newToken(TokenTypes.GT,this.ch)
+                break
             case "":
                 return token
             default:

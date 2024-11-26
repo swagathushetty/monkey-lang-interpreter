@@ -7,6 +7,14 @@ export const TokenTypes = {
 
     ASSIGN:'=',
     PLUS:'+',
+    MINUS:'-',
+    BANG:'!',
+    ASTERIK:'*',
+    SLASH:'/',
+   
+   
+    LT:'<',
+    GT:'>',
 
     COMMA:',',
     SEMICOLON:';',
