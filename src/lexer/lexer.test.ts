@@ -15,6 +15,12 @@ describe('lexer',()=>{
 
                 !-/*5;
                 5 < 10 > 5;
+
+                if(5 < 10){
+                 return true;
+                } else {
+                 return false;
+                }
         `;
         const tests = [
             { expectedType: TokenTypes.LET, expectedLiteral: "let" },
@@ -66,6 +72,26 @@ describe('lexer',()=>{
             { expectedType: TokenTypes.GT, expectedLiteral: ">" },
             { expectedType: TokenTypes.INT, expectedLiteral: "5" },
             { expectedType: TokenTypes.SEMICOLON, expectedLiteral: ";" },
+
+
+            { expectedType: TokenTypes.IF, expectedLiteral: "if" },
+            { expectedType: TokenTypes.LPAREN, expectedLiteral: "(" },
+            { expectedType: TokenTypes.INT, expectedLiteral: "5" },
+            { expectedType: TokenTypes.LT, expectedLiteral: "<" },
+            { expectedType: TokenTypes.INT, expectedLiteral: "10" },
+            { expectedType: TokenTypes.RPAREN, expectedLiteral: ")" },
+            { expectedType: TokenTypes.LBRACE, expectedLiteral: "{" },
+            { expectedType: TokenTypes.RETURN, expectedLiteral: "return" },
+            { expectedType: TokenTypes.TRUE, expectedLiteral: "true" },
+            { expectedType: TokenTypes.SEMICOLON, expectedLiteral: ";" },
+            { expectedType: TokenTypes.RBRACE, expectedLiteral: "}" },
+            { expectedType: TokenTypes.ELSE, expectedLiteral: "else" },
+            { expectedType: TokenTypes.LBRACE, expectedLiteral: "{" },
+            { expectedType: TokenTypes.RETURN, expectedLiteral: "return" },
+            { expectedType: TokenTypes.FALSE, expectedLiteral: "false" },
+            { expectedType: TokenTypes.SEMICOLON, expectedLiteral: ";" },
+            { expectedType: TokenTypes.RBRACE, expectedLiteral: "}" },
+
             {expectedType:TokenTypes.EOF,expectedLiteral:""},
         ];
 
