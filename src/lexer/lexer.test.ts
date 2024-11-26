@@ -66,8 +66,6 @@ describe('lexer',()=>{
             { expectedType: TokenTypes.GT, expectedLiteral: ">" },
             { expectedType: TokenTypes.INT, expectedLiteral: "5" },
             { expectedType: TokenTypes.SEMICOLON, expectedLiteral: ";" },
-
-
             {expectedType:TokenTypes.EOF,expectedLiteral:""},
         ];
 
