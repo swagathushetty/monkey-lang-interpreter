@@ -21,6 +21,8 @@ describe('lexer',()=>{
                 } else {
                  return false;
                 }
+                10 == 10;
+                10 != 10;
         `;
         const tests = [
             { expectedType: TokenTypes.LET, expectedLiteral: "let" },
@@ -91,6 +93,17 @@ describe('lexer',()=>{
             { expectedType: TokenTypes.FALSE, expectedLiteral: "false" },
             { expectedType: TokenTypes.SEMICOLON, expectedLiteral: ";" },
             { expectedType: TokenTypes.RBRACE, expectedLiteral: "}" },
+
+
+
+            { expectedType: TokenTypes.INT, expectedLiteral: "10" },
+            { expectedType: TokenTypes.EQ, expectedLiteral: "==" },
+            { expectedType: TokenTypes.INT, expectedLiteral: "10" },
+            { expectedType: TokenTypes.SEMICOLON, expectedLiteral: ";" },
+            { expectedType: TokenTypes.INT, expectedLiteral: "10" },
+            { expectedType: TokenTypes.NOT_EQ, expectedLiteral: "!=" },
+            { expectedType: TokenTypes.INT, expectedLiteral: "10" },
+            { expectedType: TokenTypes.SEMICOLON, expectedLiteral: ";" },
 
             {expectedType:TokenTypes.EOF,expectedLiteral:""},
         ];

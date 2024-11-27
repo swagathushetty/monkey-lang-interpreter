@@ -39,6 +39,12 @@ export class Lexer {
         this.skipWhiteSpace()
         switch(this.ch){
             case '=':
+                if(this.peekChar() == "="){
+                    const ch = this.ch
+                    this.readChar()
+                    token = newToken(TokenTypes.EQ,"==")
+                    break
+                }
                 token = newToken(TokenTypes.ASSIGN,this.ch)
                 break
             case ';':
@@ -66,6 +72,12 @@ export class Lexer {
                 token = newToken(TokenTypes.MINUS,this.ch)
                 break
             case '!':
+                if(this.peekChar() == "="){
+                    const ch = this.ch
+                    this.readChar()
+                    token = newToken(TokenTypes.NOT_EQ,"!=")
+                    break
+                }
                 token = newToken(TokenTypes.BANG,this.ch)
                 break
             case '/':
@@ -123,6 +135,15 @@ export class Lexer {
         }
 
         return this.input.slice(position,this.position)
+    }
+
+
+    private peekChar():string {
+        if(this.readPosition == this.input.length){
+            return ""
+        }else{
+            return this.input[this.readPosition]
+        }
     }
     
 }
