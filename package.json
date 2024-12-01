@@ -2,9 +2,9 @@
   "name": "monkey-interpreter",
   "version": "1.0.0",
   "description": "Monkey language interpreter# interpreter",
-  "main": "index.js",
+  "main": "repl/repl.js",
   "scripts": {
-    "dev": "nodemon src/index.ts",
+    "dev": "nodemon src/repl/repl.ts",
     "test": "vitest run"
   },
   "keywords": [],
