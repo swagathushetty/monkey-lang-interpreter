@@ -20,7 +20,7 @@ interface Expression extends ASTNode {
         // x= identifier 
         // 5 expression
 
-class Program implements ASTNode {
+export class Program implements ASTNode {
     private statements: Statement[];
 
     constructor(statements: Statement[]){
