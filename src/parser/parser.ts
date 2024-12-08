@@ -1,7 +1,7 @@
 import { Lexer } from "../lexer/lexer";
 import { Token } from "../token/token";
 
-class Parser {
+export class Parser {
     private lexer: Lexer
     private curToken?: Token
     private peekToken: Token
@@ -10,7 +10,7 @@ class Parser {
         this.lexer = lexer
     }
 
-    public static createParser(lexer:Lexer):Parser {
+    public static new(lexer:Lexer):Parser {
         const parser = new Parser(lexer)
         parser.nextToken()
         parser.nextToken()

@@ -4,7 +4,7 @@ interface ASTNode {
     tokenLiteral():string;
 }
 
-interface Statement extends ASTNode {
+export interface Statement extends ASTNode {
     statementNode():void
 }
 
@@ -21,7 +21,7 @@ interface Expression extends ASTNode {
         // 5 expression
 
 export class Program implements ASTNode {
-    private statements: Statement[];
+    public statements: Statement[];
 
     constructor(statements: Statement[]){
         this.statements = statements
@@ -37,9 +37,9 @@ export class Program implements ASTNode {
     }
 } 
 
-class LetStatement implements Statement {
+export class LetStatement implements Statement {
     private token:Token
-    private name: Identifier
+    public name: Identifier
     private value:Expression
 
     constructor(token:Token,name:Identifier,value:Expression){
@@ -59,9 +59,9 @@ class LetStatement implements Statement {
 
 class Identifier implements Expression {
     private token:Token
-    private value:Expression
+    public value:string
 
-    constructor(token:Token,value:Expression){
+    constructor(token:Token,value:string){
         this.token = token
         this.value = value
     }
