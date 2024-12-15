@@ -23,8 +23,12 @@ interface Expression extends ASTNode {
 export class Program implements ASTNode {
     public statements: Statement[];
 
-    constructor(statements: Statement[]){
+    private constructor(statements: Statement[]){
         this.statements = statements
+    }
+
+    public static new():Program {
+        return new Program([])
     }
 
     public tokenLiteral():string{

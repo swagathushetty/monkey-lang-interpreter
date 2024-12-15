@@ -21,7 +21,7 @@ describe('Parser',()=>{
 
         tests.forEach((expected,index)=>{
             const stmt = program?.statements(index)
-            expect(testLetStatement(stmt.test!,expected)).toBeTruthy()
+            expect(testLetStatement(stmt.test,expected)).toBeTruthy()
         })
 
     })

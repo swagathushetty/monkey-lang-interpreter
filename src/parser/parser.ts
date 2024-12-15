@@ -1,5 +1,6 @@
+import { Program, Statement } from "../ast/ast";
 import { Lexer } from "../lexer/lexer";
-import { Token } from "../token/token";
+import { Token, TokenTypes } from "../token/token";
 
 export class Parser {
     private lexer: Lexer
@@ -22,7 +23,28 @@ export class Parser {
         this.peekToken = this.lexer.nextToken()
     }
 
-    public parseProgram():Program | null {
-        return null
+    public parseProgram():Program {
+        const program = Program.new()
+
+        while(this.curToken?.type !== TokenTypes.EOF){
+            const stmt = this.parseStatement()
+
+            if (stmt){
+                program.statements.push(stmt)
+            }
+            this.nextToken()
+        }
+
+        return program
+    }
+
+
+    private parseStatement():Statement | null {
+        switch(this.curToken?.type){
+            case TokenTypes.LET:
+                return this.parseLetStatement()
+            default:
+                return null
+        }
     }
 }
