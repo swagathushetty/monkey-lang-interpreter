@@ -43,13 +43,17 @@ export class Program implements ASTNode {
 
 export class LetStatement implements Statement {
     private token:Token
-    public name: Identifier
-    private value:Expression
+    public name?: Identifier
+    private value?:Expression
 
-    constructor(token:Token,name:Identifier,value:Expression){
+    private constructor(token:Token){
         this.token = token
-        this.name = name
-        this.value = value
+        // this.name = name
+        // this.value = value
+    }
+
+    public static new(token:Token){
+        return new LetStatement(token)
     }
 
     public statementNode(): void {
@@ -61,13 +65,17 @@ export class LetStatement implements Statement {
     }
 }
 
-class Identifier implements Expression {
+export class Identifier implements Expression {
     private token:Token
     public value:string
 
-    constructor(token:Token,value:string){
+    private constructor(token:Token,value:string){
         this.token = token
         this.value = value
+    }
+
+    public static new(token:Token,value:string):Identifier{
+        return new Identifier(token,value)
     }
 
     public expressionNode(): void {

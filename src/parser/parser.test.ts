@@ -20,8 +20,8 @@ describe('Parser',()=>{
         const tests = ["x","y","foobar"]
 
         tests.forEach((expected,index)=>{
-            const stmt = program?.statements(index)
-            expect(testLetStatement(stmt.test,expected)).toBeTruthy()
+            const stmt = program?.statements[index]
+            expect(testLetStatement(stmt,expected)).toBeTruthy()
         })
 
     })
@@ -32,8 +32,8 @@ function testLetStatement(stmt:Statement,expected:string):boolean{
         !stmt || 
         stmt.tokenLiteral() !== 'let' ||
         !(stmt instanceof LetStatement) ||
-        stmt.name.value !== expected ||
-        stmt.name.tokenLiteral() !== expected
+        stmt.name?.value !== expected ||
+        stmt.name?.tokenLiteral() !== expected
     ){
         return false
     }

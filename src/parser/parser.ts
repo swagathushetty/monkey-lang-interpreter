@@ -1,6 +1,6 @@
-import { Program, Statement } from "../ast/ast";
+import { Identifier, LetStatement, Program, Statement } from "../ast/ast";
 import { Lexer } from "../lexer/lexer";
-import { Token, TokenTypes } from "../token/token";
+import { Token, TokenType, TokenTypes } from "../token/token";
 
 export class Parser {
     private lexer: Lexer
@@ -46,5 +46,43 @@ export class Parser {
             default:
                 return null
         }
+    }
+
+    private parseLetStatement():LetStatement | null{
+        const stmt = LetStatement.new(this.curToken!)
+
+        if(!this.expectPeek(TokenTypes.IDENT)){
+            return null
+        }
+
+        stmt.name = Identifier.new(this.curToken!,this.curToken?.literal!)
+
+        if(!this.expectPeek(TokenTypes.ASSIGN)){
+            return null
+        }
+
+        while(!this.curTokenIs(TokenTypes.SEMICOLON)){
+            this.nextToken()
+        }
+
+        return stmt
+    }
+
+
+    private curTokenIs(t:TokenType):boolean {
+        return this.curToken?.type === t
+    }
+
+    private expectPeek(t:TokenType):boolean {
+        if(this.peekTokenIs(t)){
+            this.nextToken()
+            return true
+        }
+
+        return false
+    }
+
+    private peekTokenIs(t:TokenType):boolean {
+        return this.peekToken?.type === t
     }
 }
