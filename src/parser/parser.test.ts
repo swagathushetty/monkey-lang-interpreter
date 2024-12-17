@@ -14,6 +14,8 @@ describe('Parser',()=>{
         const parser = Parser.new(lexer)
         const program = parser.parseProgram()
 
+        expect(checkParserErrors(parser)).toBeFalsy()
+
         expect(program).toBeDefined()
         expect(program?.statements).toHaveLength(3)
 
@@ -40,4 +42,16 @@ function testLetStatement(stmt:Statement,expected:string):boolean{
 
     return true
 
+}
+
+
+function checkParserErrors(parser:Parser):boolean{
+    const errors = parser.getErrors()
+
+    console.log(`parser has ${errors.length} errors`)
+    for(const error of errors){
+        console.error(`parser error ${error}`)
+    }
+
+    return errors.length > 0 ? true : false
 }

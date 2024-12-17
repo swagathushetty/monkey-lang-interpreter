@@ -5,10 +5,11 @@ import { Token, TokenType, TokenTypes } from "../token/token";
 export class Parser {
     private lexer: Lexer
     private curToken?: Token
-    private peekToken: Token
-
+    private peekToken?: Token
+    private errors:string[]
     private constructor(lexer:Lexer) {
         this.lexer = lexer
+        this.errors = []
     }
 
     public static new(lexer:Lexer):Parser {
@@ -26,7 +27,7 @@ export class Parser {
     public parseProgram():Program {
         const program = Program.new()
 
-        while(this.curToken?.type !== TokenTypes.EOF){
+        while(!this.curTokenIs(TokenTypes.EOF)){
             const stmt = this.parseStatement()
 
             if (stmt){
@@ -50,13 +51,14 @@ export class Parser {
 
     private parseLetStatement():LetStatement | null{
         const stmt = LetStatement.new(this.curToken!)
-
+        
         if(!this.expectPeek(TokenTypes.IDENT)){
             return null
         }
 
         stmt.name = Identifier.new(this.curToken!,this.curToken?.literal!)
-
+        
+        //check = sign is there
         if(!this.expectPeek(TokenTypes.ASSIGN)){
             return null
         }
@@ -78,11 +80,21 @@ export class Parser {
             this.nextToken()
             return true
         }
-
+        this.peekError(t)
         return false
     }
 
     private peekTokenIs(t:TokenType):boolean {
         return this.peekToken?.type === t
+    }
+
+    public getErrors():string[]{
+        return this.errors
+    }
+
+    private peekError(t:TokenType){
+        const msg = `Expected next token to be ${t}, got ${this.peekToken?.type} instead`
+
+        this.errors.push(msg)
     }
 }
