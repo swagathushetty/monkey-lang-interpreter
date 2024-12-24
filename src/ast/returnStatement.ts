@@ -20,5 +20,18 @@ export class ReturnStatement implements Statement {
         return this.token.literal
     }
 
+    public string(): string {
+        let out:string = ""
+
+        out += this.tokenLiteral()+ " "
+        
+        if(this.returnValue){
+            out += this.returnValue.string()
+        }
+        
+        out += ";"
+        return out
+    }
+
 
 }

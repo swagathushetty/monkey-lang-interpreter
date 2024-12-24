@@ -23,4 +23,17 @@ export class LetStatement implements Statement {
     public tokenLiteral(): string {
         return this.token.literal
     }
+
+    public string(): string {
+        let out:string = ""
+
+        out += this.tokenLiteral()+ " "
+        out += this.name.string()
+        out += " = "
+        if(this.value){
+            out += this.value.string()
+        }
+        out += ";"
+        return out
+    }
 }

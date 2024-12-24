@@ -21,4 +21,8 @@ export class Identifier implements Expression {
     public tokenLiteral(): string {
         return this.token.literal
     }
+
+    public string(): string {
+      return this.value
+    }
 }

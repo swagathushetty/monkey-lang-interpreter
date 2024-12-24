@@ -20,6 +20,7 @@ export class Program implements ASTNode {
         return new Program([])
     }
 
+
     public tokenLiteral():string{
         
         if(this.statements.length > 0){
@@ -28,4 +29,15 @@ export class Program implements ASTNode {
 
         return ""
     }
+
+    public string(): string {
+        let out:string = ""
+
+        for(const stmt of this.statements){
+            out += stmt.string()
+        }
+
+        return out
+    }
+
 } 
