@@ -1,10 +1,11 @@
 import { Token } from "../token/token"
-import { Expression, Identifier, Statement } from "./ast"
+import { Expression, Statement } from "./ast"
+import { Identifier } from "./identifier"
 
 export class LetStatement implements Statement {
     private token:Token
     public name?: Identifier
-    private value?:Expression
+    public value?:Expression
 
     private constructor(token:Token){
         this.token = token
@@ -28,7 +29,7 @@ export class LetStatement implements Statement {
         let out:string = ""
 
         out += this.tokenLiteral()+ " "
-        out += this.name.string()
+        out += this.name?.string()
         out += " = "
         if(this.value){
             out += this.value.string()

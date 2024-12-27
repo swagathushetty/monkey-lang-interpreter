@@ -1,4 +1,4 @@
-import {  Statement } from "../ast/ast";
+import {  Expression, Statement } from "../ast/ast";
 import { Identifier } from "../ast/identifier";
 import { LetStatement } from "../ast/letStatement";
 import { Program } from "../ast/program";
@@ -6,14 +6,21 @@ import { ReturnStatement } from "../ast/returnStatement";
 import { Lexer } from "../lexer/lexer";
 import { Token, TokenType, TokenTypes } from "../token/token";
 
+type PrefixParseFn = () => Expression
+type InfixParseFn = (expression:Expression) => Expression
+
 export class Parser {
     private lexer: Lexer
     private curToken?: Token
     private peekToken?: Token
     private errors:string[]
+    private prefixParseFns = new Map<TokenType,PrefixParseFn>()
+    private infixParseFns = new Map<TokenType,InfixParseFn>()
+
     private constructor(lexer:Lexer) {
         this.lexer = lexer
         this.errors = []
+        
     }
 
     public static new(lexer:Lexer):Parser {
@@ -113,5 +120,13 @@ export class Parser {
         }
 
         return stmt
+    }
+
+    private registerPrefix(tokenType:TokenType,fn:PrefixParseFn){
+        this.prefixParseFns.set(tokenType,fn)
+    }
+
+    private registerInfix(tokenType:TokenType,fn:InfixParseFn){
+        this.infixParseFns.set(tokenType,fn)
     }
 }
