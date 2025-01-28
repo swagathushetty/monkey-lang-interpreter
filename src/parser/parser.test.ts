@@ -1,5 +1,8 @@
 import { Statement } from "../ast/ast"
+import { ExpressionStatement } from "../ast/expressionStatement"
+import { Identifier } from "../ast/identifier"
 import { LetStatement } from "../ast/letStatement"
+import { Program } from "../ast/program"
 import { ReturnStatement } from "../ast/returnStatement"
 import { Lexer } from "../lexer/lexer"
 import { Parser } from "./parser"
@@ -51,6 +54,28 @@ describe('Parser',()=>{
             expect(returnStmt.tokenLiteral()).toEqual('return')
             
         }
+    })
+
+    it('should return identifier expression',()=>{
+        const input = 'foobar;'
+        const lexer = Lexer.new(input)
+        const parser = Parser.new(lexer)
+        const program = parser.parseProgram()
+        checkParserErrors(parser)
+
+
+        expect(program.statements).toEqual(1)
+        const stmt = program.statements[0]
+        expect(stmt instanceof ExpressionStatement).toBeTruthy()
+
+        const identExp = (stmt as ExpressionStatement).expression
+
+        expect(identExp instanceof Identifier).toBeTruthy()
+
+        const ident = identExp as Identifier
+
+        expect(ident.value).toEqual("foobar")
+        expect(ident.tokenLiteral()).toEqual("foobar")
     })
 })
 

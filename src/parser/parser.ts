@@ -1,4 +1,5 @@
 import {  Expression, Statement } from "../ast/ast";
+import { ExpressionStatement } from "../ast/expressionStatement";
 import { Identifier } from "../ast/identifier";
 import { LetStatement } from "../ast/letStatement";
 import { Program } from "../ast/program";
@@ -9,6 +10,15 @@ import { Token, TokenType, TokenTypes } from "../token/token";
 type PrefixParseFn = () => Expression
 type InfixParseFn = (expression:Expression) => Expression
 
+enum PrecedenceTable {
+    LOWEST = 1,
+    EQUALS,
+    LESSGREATER,
+    SUM,
+    PRODUCT,
+    PREFIX,
+    CALL
+}
 export class Parser {
     private lexer: Lexer
     private curToken?: Token
@@ -27,6 +37,8 @@ export class Parser {
         const parser = new Parser(lexer)
         parser.nextToken()
         parser.nextToken()
+
+        parser.registerPrefix(TokenTypes.IDENT,parser.parseIdentifier)
         return parser
     }
 
@@ -58,7 +70,7 @@ export class Parser {
             case TokenTypes.RETURN:
                 return this.parseReturnStatement()
             default:
-                return null
+                return this.parseExpressionStatement()
         }
     }
 
@@ -128,5 +140,31 @@ export class Parser {
 
     private registerInfix(tokenType:TokenType,fn:InfixParseFn){
         this.infixParseFns.set(tokenType,fn)
+    }
+
+    private parseExpressionStatement():ExpressionStatement {
+        const stmt = ExpressionStatement.new(this.curToken!)
+        stmt.expression = this.parseExpression(PrecedenceTable.LOWEST)
+
+        //below code keeps semicolon optional when using repl editor
+        if(this.peekTokenIs(TokenTypes.SEMICOLON)){
+            this.nextToken()
+        }
+
+        return stmt
+    }
+
+    private parseExpression(predence:Number):Expression | undefined{
+        const prefix = this.prefixParseFns.get((this.curToken!.type))
+
+        if(!prefix) return undefined
+
+        const leftExp = prefix()
+
+        return leftExp
+    }
+
+    private parseIdentifier():Expression{
+        return Identifier.new(this.curToken!,this.curToken!.literal)
     }
 }
